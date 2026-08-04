@@ -35,23 +35,20 @@ $qtdCritica = 5; // mínimo necessário no estoque
     <p><b>Quantidade em estoque: </b><?= $qtdEmEstoque ?></p>
 <?php  
     if ($qtdEmEstoque < $qtdCritica) {
-        echo "<p class=\"comprar\">É necessário comprar/repor</p>";
+?>
+        <p class="comprar">É necessário comprar/repor</p>
 
-        // Condicional ANINHADA (ela está dentro de outro if)
+<?php
         if($qtdEmEstoque === 0) {
-            echo "<p><mark class=\"comprar\">🚨URGENTE!</mark></p>";
+?>
+            <p><mark class="comprar">🚨URGENTE!</mark></p>
+<?php
         }
     } else {
-        echo "<p class=\"normal\">Estoque normal.</p>";
+?>
+        <p class="normal">Estoque normal.</p>
+<?php  
     }
-
-    //if/else versão abreviada (shorthand if) ?:
-    $excessoDeEstoque = $qtdEmEstoque > 100 ? "sim" : "não";
-    echo $excessoDeEstoque;
-
-    echo "<br>";
-    
-    echo $qtdEmEstoque > 100 ? "sim" : "não";
 ?>
 
 <hr>
