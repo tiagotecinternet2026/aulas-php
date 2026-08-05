@@ -33,6 +33,29 @@ if($idade >= 18){
 }
 ?>
     <h3>Resultado (usando PHP só onde é necessário):</h3>
+<?php 
+if($idade >= 18):
+?>
+    <p><b><?= $aluno ?></b> é maior de idade</p>
+<?php  
+else:
+?>
+    <p><i><?= $aluno ?></i> é menor de idade</p>
+<?php 
+endif;
+?>    
+    <h3>Resultado (refatorado)</h3>
+    <i>(veja que, mudando a lógica e usando variáveis auxiliares, nem precisamos fazer as separações de PHP com HTML)</i>
+<?php  
+if($idade >= 18){
+    $htmlSaida = "<b>$aluno</b>";
+    $palavra = "maior";
+} else {
+    $htmlSaida = "<i>$aluno</i>";
+    $palavra = "menor";
+}
+?>    
+    <p> <?= $htmlSaida ?> é <?= $palavra ?> de idade</p>
 
 </body>
 </html>
