@@ -41,6 +41,18 @@ for($i = 0; $i < $linhas; $i++): // acessa cada linha
     endfor; // fim do acesso a cada coluna
 endfor; // fim do acesso a cada linha
 ?>
+    <hr>
+
+    <h2>Usando o loop foreach para arrays</h2>
+<?php  
+$alunos = ["Thiago", "Adela", "Renan", "Pérola"];
+foreach($alunos as $aluno):
+?>    
+    <p> <?= $aluno ?> </p>
+<?php  
+endforeach;
+?>
+
 
 </div>
 
