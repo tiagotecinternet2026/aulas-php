@@ -26,7 +26,16 @@ $emailValido = filter_var($email, FILTER_VALIDATE_EMAIL);
     <p class="text-danger">E-mail incorreto!</p>
 <?php endif; ?>    
 
+    <h3>FILTER_VALIDATE_URL</h3>
+<?php  
+$redeSocial = "https://linkedin.com/in/tiagobsantos";
+$redeSocialValida = filter_var($redeSocial, FILTER_VALIDATE_URL);
+?>
+    <pre><?php var_dump($redeSocialValida) ?></pre>
 
+<?php if($redeSocialValida): ?>    
+    <a href="<?= $redeSocial ?>" class="btn btn-info">Me siga no LinkedIn</a>
+<?php endif; ?>        
 
 </div>
 
