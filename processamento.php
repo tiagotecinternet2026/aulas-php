@@ -29,29 +29,64 @@ if( $_SERVER["REQUEST_METHOD"] === "POST" ){
     $idade = filter_input(INPUT_POST, 'idade', FILTER_SANITIZE_NUMBER_INT);
     $mensagem = filter_input(INPUT_POST, 'mensagem', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    /* Operador ?? -> coalescência nula
-    Caso nenhum interesse seja selecionado, 
-    a variável guardará um array vazio */
-    $interesses = $_POST["interesses"] ?? []; 
+    /* Regras para o campo de Interesses */
+    $interessesValidos = ["html", "css", "javascript"];
 
-    // Caso nenhuma opção seja selecionada, o valor "nao" fica como padrão
-    $informativos = $_POST["informativos"] ?? "nao";
+    // Filtrando as opções de interesses e tornando obrigatório o uso de array 
+    $interesses = filter_input(
+        INPUT_POST, 'interesses', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY
+        ) ?? []; 
+
+    // Se $interesses NÃO É um array
+    if(!is_array($interesses)){
+        // Garantindo que ao menos vire um array vazio
+        $interesses = [];
+
+        // Registrando uma mensagem de erro no array de erros
+        $erros[] = "Seleção inválida de interesses";
+    }
+
+    // Comparar os dois arrays (o do formulário e o válidos) checando se os valores "batem"
+    $interessesValidados = array_intersect($interesses, $interessesValidos);
+    
+    /* Informativos */
+    // Define uma lista de opções válidas conforme o formulário
+    $opcoesValidas = ["sim", "nao"];
+
+    // Filtramos a entrada que o usuário escolheu
+    $informativos = filter_input(INPUT_POST, 'informativos', FILTER_SANITIZE_SPECIAL_CHARS);
+    
+    // Verificamos se a escolha do usuário é uma das válidas. 
+    // Se sim, usamos ela. Senão, usamos "nao"
+    $informativos = in_array($informativos, $opcoesValidas) ? $informativos : "nao";
+
+    
+
+    if(!empty($erros)):
 ?>   
+    <div class="alert alert-danger">
+        <h2>Erros encontrados:</h2>
+        <ul class="mb-3">
+            <?php foreach($erros as $erro): ?>
+                <li> <?= $erro ?> </li>
+            <?php endforeach ?>
+        </ul>
+        <a href="17-formulario.html" class="btn btn-warning">Voltar para o formulário</a>
+    </div>
+<?php else: ?>
     <h2>Dados recebidos</h2>
     <p>Nome: <?= $nome ?></p>
     <p>E-mail: <?= $email ?></p>
     <p>Idade: <?= $idade ?> anos</p>
     <p>Mensagem: <?= $mensagem ?> </p>
     
-    <?php if(!empty($interesses)): ?>
-    <p>Interesses: <?= implode(", ", $interesses) ?></p>
+    <?php if(!empty($interessesValidados)): ?>
+    <p>Interesses: <?= implode(", ", $interessesValidados) ?></p>
     <?php endif; ?>
 
-    <p>Informativos: 
-        <?= $informativos === 'sim' ? "Sim" : "Não" ?>
-    </p>
-    
+    <p>Informativos: <?= $informativos === 'sim' ? "Sim" : "Não" ?> </p>
 <?php
+    endif;
 } else {
 ?>
     <!-- Acesso inválido (usuário não veio do formulário) -->
