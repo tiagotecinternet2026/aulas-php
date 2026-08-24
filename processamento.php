@@ -12,6 +12,11 @@
     <hr>
 
 <?php 
+/* $_POST e $_GET
+Arrays superglobais que possuem os dados
+enviados a partir de formulários e/ou
+links dinâmicos. */
+
 // Capturando os dados de cada campo
 $nome = $_POST["nome"];
 $email = $_POST["email"];
