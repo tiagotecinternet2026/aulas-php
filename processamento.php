@@ -17,19 +17,22 @@ Arrays superglobais que possuem os dados
 enviados a partir de formulários e/ou
 links dinâmicos. */
 
-// Capturando os dados de cada campo
-$nome = $_POST["nome"];
-$email = $_POST["email"];
-$idade = $_POST["idade"];
-$mensagem = $_POST["mensagem"];
+// Verificando se houve uma requisição POST
+if( $_SERVER["REQUEST_METHOD"] === "POST" ){
 
-/* Operador ?? -> coalescência nula
-Caso nenhum interesse seja selecionado, 
-a variável guardará um array vazio */
-$interesses = $_POST["interesses"] ?? []; 
+    // Capturando os dados de cada campo
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $idade = $_POST["idade"];
+    $mensagem = $_POST["mensagem"];
 
-// Caso nenhuma opção seja selecionada, o valor "nao" fica como padrão
-$informativos = $_POST["informativos"] ?? "nao";
+    /* Operador ?? -> coalescência nula
+    Caso nenhum interesse seja selecionado, 
+    a variável guardará um array vazio */
+    $interesses = $_POST["interesses"] ?? []; 
+
+    // Caso nenhuma opção seja selecionada, o valor "nao" fica como padrão
+    $informativos = $_POST["informativos"] ?? "nao";
 ?>   
     <h2>Dados recebidos</h2>
     <p>Nome: <?= $nome ?></p>
@@ -44,6 +47,20 @@ $informativos = $_POST["informativos"] ?? "nao";
     <p>Informativos: 
         <?= $informativos === 'sim' ? "Sim" : "Não" ?>
     </p>
+    
+<?php
+} else {
+?>
+    <!-- Acesso inválido (usuário não veio do formulário) -->
+    <div class="alert alert-danger">
+        <h2>Acesso inválido!</h2>
+        <p>Você deve usar o formulário para enviar os dados.</p>
+        <hr>
+        <a href="17-formulario.html" class="btn btn-primary">Ir para o formulário.</a>
+    </div>
+<?php  
+}
+?>
 
 </div>
 
